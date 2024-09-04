@@ -11,9 +11,10 @@ public class JogoApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(JogoApplication.class.getResource("menu-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 375, 216);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Jogo da Velha");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
