@@ -14,6 +14,8 @@ import java.io.IOException;
 
 public class JogoController {
 
+    private Game game;
+
     @FXML
     private Label nickPlayer1;
     @FXML
@@ -28,13 +30,17 @@ public class JogoController {
     private Label victoriesP2;
     @FXML
     private Label draw;
-
     @FXML
     private GridPane gridPane;
 
     // É passado os inputs para esse controlador e setado a interface
     // com as informações passadas
-    public void transferData(Game game){
+    public void setGame(Game game){
+        this.game = game;
+        updateUI();
+    }
+
+    private void updateUI(){
         nickPlayer1.setText(game.getNameP1());
         choiceSymbolP1.setText(String.valueOf(game.getSymbolP1()));
         victoriesP1.setText(String.valueOf(game.getVictoriesP1()));
@@ -71,5 +77,23 @@ public class JogoController {
     private void closeCurrentWindow(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    public void initialize(){
+        gridPane.setOnMouseClicked(event -> {
+            // Obtém a posição do clique em relação ao GridPane.
+            double x = event.getX();
+            double y = event.getY();
+
+            // Converte as coordenadas para índices de célula.
+            int column = (int) (x / (gridPane.getWidth() / 3));
+            int row = (int) (y / (gridPane.getHeight() / 3));
+
+            // Converta a posição 2D para um índice 1D no array.
+            int index = row * 3 + column;
+
+            System.out.println("Célula clicada:" + (index));
+        });
     }
 }

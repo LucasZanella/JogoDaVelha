@@ -55,7 +55,7 @@ public class MenuController {
         // que é instanciada, em seguida, é passada para a função OpenGame e por fim,
         // a função que fecha a tela do menu é chamada.
         }else {
-            Game game = new Game(player1Name, player2Name, choice1, choice2, 0, 0,0);
+            Game game = new Game(player1Name, player2Name, choice1, choice2, 0, 0, 0);
             OpenGame(game);
             closeCurrentWindow(mouseEvent);
         }
@@ -104,7 +104,7 @@ public class MenuController {
             JogoController gameController = loader.getController();
 
             // Chama um método do controlador que é usado para passar os dados para a próxima tela.
-            gameController.transferData(game);
+            gameController.setGame(game);
 
             // Cria uma nova instância de Stage, que é uma janela em JavaFX;
             // Define a cena da nova janela;

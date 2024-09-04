@@ -8,6 +8,7 @@ public class Game {
     private Integer victoriesP1;
     private Integer victoriesP2;
     private Integer draw;
+    private char[] gameXO;
 
     public Game(String nameP1, String nameP2, Character symbolP1, Character symbolP2, Integer victoriesP1, Integer victoriesP2, Integer draw) {
         this.nameP1 = nameP1;
@@ -17,6 +18,7 @@ public class Game {
         this.victoriesP1 = victoriesP1;
         this.victoriesP2 = victoriesP2;
         this.draw = draw;
+        gameXO = new char[9];
     }
 
     public String getNameP1() {
@@ -73,5 +75,13 @@ public class Game {
 
     public void setDraw(Integer draw) {
         this.draw = draw;
+    }
+
+    public char[] getGameXO() {
+        return gameXO;
+    }
+
+    public void setGameXO(char[] gameXO) {
+        this.gameXO = gameXO;
     }
 }
