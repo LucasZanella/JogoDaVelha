@@ -91,7 +91,7 @@ public class MenuController {
     // A função retorna a validação dos inputs das choices boxes.
     private boolean ValidateSymbol(Character symbol1, Character symbol2) {
 
-        // Só verificado se não foi escolhido os símbolos
+        // Só verificado se não foi escolhido os símbolos.
         return symbol1 == null || symbol2 == null;
     }
 
@@ -106,20 +106,14 @@ public class MenuController {
             // Obtém o controlador associado ao FXML carregado.
             JogoController gameController = loader.getController();
 
-            // Chama uma função do controlador que é usado para passar os dados para a próxima tela.
-            gameController.setGame(game);
+            gameController.setGame(game);       // Chama uma função do controlador que é usado para passar os dados para a próxima tela.
 
-            // Cria uma nova instância de Stage, que é uma janela em JavaFX;
-            // Define a cena da nova janela;
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
+            Stage stage = new Stage();          // Cria uma nova instância de Stage, que é uma janela em JavaFX;
+            stage.setScene(new Scene(root));    // Define a cena da nova janela;
 
-            // Define o título da página;
-            // Define a janela como não redimensionável;
-            // Exibe a nova janela na tela.
-            stage.setTitle("Jogo da Velha");
-            stage.setResizable(false);
-            stage.show();
+            stage.setTitle("Jogo da Velha");    // Define o título da página;
+            stage.setResizable(false);          // Define a janela como não redimensionável;
+            stage.show();                       // Exibe a nova janela na tela.
 
         // Mostra o rastreamento dos erros que possam ocorrer durante a execução deste código.
         } catch (IOException e) {
@@ -129,8 +123,11 @@ public class MenuController {
 
     // A função que fecha o menu quando o botão "Jogar" clicado.
     private void closeCurrentWindow(MouseEvent event) {
+
+        // Obtém a janela (Stage) atual a partir do evento de mouse.
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
+
+        stage.close();      // Fecha a janela atual
     }
 
     // Configura as duas ChoiceBox.
