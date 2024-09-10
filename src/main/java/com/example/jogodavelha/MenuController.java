@@ -28,8 +28,7 @@ public class MenuController {
     @FXML
     private TextField textFieldPlayer2;
 
-    // Função que recebe um mouse event de click, ou seja,
-    // quando o botão (Jogar) for clicado a função é chamada.
+    // Quando o botão (Jogar) for clicado a função é executada.
     public void onMouseClickedPlay(MouseEvent mouseEvent) {
         // Captura os inputs (nomes) dos textfields.
         String player1Name = textFieldPlayer1.getText();
@@ -63,8 +62,7 @@ public class MenuController {
         }
     }
 
-    // Função que recebe um mouse event de click, ou seja,
-    // quando o botão (Regras) for clicado a função é chamada.
+    // Quando o botão (Regras) for clicado a função é executada.
     public void onMouseClickedRules(){
 
         // É setado a menssagem do alert e depois mostrado para o usuário.
