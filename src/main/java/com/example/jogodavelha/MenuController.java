@@ -127,13 +127,13 @@ public class MenuController {
         }
     }
 
-    // Fecha a janela atual quando um evento de mouse ocorre, no caso, "Jogar".
+    // A função que fecha o menu quando o botão "Jogar" clicado.
     private void closeCurrentWindow(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
-    //Configura as duas ChoiceBox.
+    // Configura as duas ChoiceBox.
     @FXML
     public void initialize() {
 

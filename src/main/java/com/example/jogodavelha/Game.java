@@ -134,8 +134,8 @@ public class Game {
 
 
 
-    // Função que adiciona o símbolo no array e verifica
-    // a condição do jogo e alterna os jogadores.
+    // Função que adiciona os símbolos no array e verifica
+    // as condições do jogo e alterna os jogadores.
     public void play(int posicao){
 
         // Quando for verdade o player 1 joga;

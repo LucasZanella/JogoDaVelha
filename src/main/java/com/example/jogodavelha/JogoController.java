@@ -47,6 +47,7 @@ public class JogoController {
         updateUI();
     }
 
+    // Atualiza a interface.
     private void updateUI(){
         nickPlayer1.setText(game.getNameP1());
         choiceSymbolP1.setText(String.valueOf(game.getSymbolP1()));
@@ -59,6 +60,7 @@ public class JogoController {
         draw.setText(String.valueOf(game.getDraw()));
     }
 
+    // Abre o menu.
     private void openFirstScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(JogoApplication.class.getResource("menu-view.fxml"));
@@ -81,18 +83,61 @@ public class JogoController {
         stage.close();
     }
 
-    // Fecha a janela atual quando os players não querem fazer uma revanche.
+    // Fecha a janela atual quando os players voltam para o menu.
     private void closeCurrentWindow() {
         Stage stage = (Stage) gridPane.getScene().getWindow();
         stage.close();
     }
 
+    // Mostra o resultado em um alerta e outro alerta pede se os usuários querem revanhe.
+    private void showResultAlert(String title, String message) {
+        Alert resultAlert = new Alert(Alert.AlertType.INFORMATION);
+        informationAlert.setTitle("Resultado!");
+        informationAlert.setHeaderText(null);
+        informationAlert.setContentText(message);
+        informationAlert.showAndWait();
+
+        // Remove os botões padrão do alerta
+        resultAlert.getDialogPane().getButtonTypes().clear();
+
+        ButtonType returnToMenuButtonType = new ButtonType("Voltar ao Menu", ButtonBar.ButtonData.CANCEL_CLOSE);
+        resultAlert.getButtonTypes().add(returnToMenuButtonType);
+
+        ButtonType restartButtonType = new ButtonType("Reiniciar Jogo", ButtonBar.ButtonData.OK_DONE);
+        resultAlert.getButtonTypes().add(restartButtonType);
+
+        resultAlert.setHeaderText("Escolha uma opção!");
+
+        resultAlert.showAndWait().ifPresent(response -> {
+            if (response == restartButtonType) {
+                restartGame();
+            } else if (response == returnToMenuButtonType) {
+                closeCurrentWindow();
+                openFirstScreen();
+            }
+        });
+    }
+
+    // Remove os símbolos do GridPane.
+    private void resetGridPane() {
+        gridPane.getChildren().removeIf(node -> GridPane.getColumnIndex(node) != null && GridPane.getRowIndex(node) != null);
+    }
+
+    // Reinicia o jogo.
+    private void restartGame() {
+        resetGridPane();
+        game.reset();
+        updateUI();
+    }
+
+    // Fecha a janela atual quando um evento de mouse ocorre, no caso, "Voltar".
     @FXML
     private void onMouseClickedReturn(MouseEvent mouseEvent) {
         openFirstScreen();
         closeCurrentWindow(mouseEvent);
     }
 
+    // Configura os eventos no GridPane.
     @FXML
     public void initialize(){
 
@@ -144,41 +189,5 @@ public class JogoController {
             }
         });
 
-    }
-
-    private void showResultAlert(String title, String message) {
-        Alert resultAlert = new Alert(Alert.AlertType.INFORMATION);
-        informationAlert.setTitle("Resultado!");
-        informationAlert.setHeaderText(null);
-        informationAlert.setContentText(message);
-        informationAlert.showAndWait();
-
-        // Remove os botões padrão
-        resultAlert.getDialogPane().getButtonTypes().clear();
-
-        ButtonType restartButtonType = new ButtonType("Reiniciar Jogo", ButtonBar.ButtonData.OK_DONE);
-        resultAlert.getButtonTypes().add(restartButtonType);
-
-        ButtonType returnToMenuButtonType = new ButtonType("Voltar ao Menu", ButtonBar.ButtonData.CANCEL_CLOSE);
-        resultAlert.getButtonTypes().add(returnToMenuButtonType);
-
-        resultAlert.showAndWait().ifPresent(response -> {
-            if (response == restartButtonType) {
-                restartGame();
-            } else if (response == returnToMenuButtonType) {
-                closeCurrentWindow();
-                openFirstScreen();
-            }
-        });
-    }
-
-    private void resetGridPane() {
-        gridPane.getChildren().removeIf(node -> GridPane.getColumnIndex(node) != null && GridPane.getRowIndex(node) != null);
-    }
-
-    private void restartGame() {
-        resetGridPane();
-        game.reset();
-        updateUI();
     }
 }
