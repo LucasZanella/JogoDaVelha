@@ -10,7 +10,7 @@ public class JogoApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        // Responsável por carregar o layout da interface do usuário e o conteúdo a partir de um arquivo FXML.
+        // Responsável por carregar o conteúdo a partir de um arquivo FXML.
         FXMLLoader fxmlLoader = new FXMLLoader(JogoApplication.class.getResource("menu-view.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load());         // Carrega o layout da tela a partir do arquivo FXML.
