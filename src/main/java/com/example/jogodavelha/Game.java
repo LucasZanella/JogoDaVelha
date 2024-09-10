@@ -139,13 +139,9 @@ public class Game {
         // Quando for verdade o player 1 joga;
         // Quando for falso o player 2 joga.
         if (playerTurn) {
-
-            // Adiciona o símbolo do player 1 no array.
-            gameXO[posicao] = symbolP1;
-
+            gameXO[posicao] = symbolP1;         // Adiciona o símbolo do player 1 no array.
         } else {
-            // Adiciona o símbolo do player 2 no array.
-            gameXO[posicao] = symbolP2;
+            gameXO[posicao] = symbolP2;         // Adiciona o símbolo do player 2 no array.
         }
 
         // Incrementa o contador de jogadas.
@@ -169,12 +165,10 @@ public class Game {
 
             // Se ninguém venceu, verifica se deu empate.
             } else if (checkDraw()) {
-                // Incrementa o número de empates.
-                draw++;
+                draw++;             // Incrementa o número de empates.
             }
         }
-        // Alterna o turno entre os jogadores.
-        playerTurn = !playerTurn;
+        playerTurn = !playerTurn;   // Alterna o turno entre os jogadores.
     }
 
     // Função para verificar se houve vitória.
