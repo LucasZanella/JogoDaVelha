@@ -111,7 +111,7 @@ public class JogoController {
         informationAlert.setTitle("Resultado!");                        // Define o título do alerta.
         informationAlert.setHeaderText("Parabéns!!");                   // Define o cabeçalho do alerta.
         informationAlert.setContentText(message);                       // Define o conteúdo do alerta com a mensagem passada como parâmetro.
-        informationAlert.show();                                        // Mostra o alerta e espera pela resposta do usuário.
+        informationAlert.showAndWait();                                 // Mostra o alerta e espera pela resposta do usuário.
 
         // Alerta que trata a escolha de reiniciar o jogo ou voltar para o menu.
         resultAlert.getDialogPane().getButtonTypes().clear();           // Remove os botões padrão do alerta.
