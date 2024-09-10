@@ -8,6 +8,7 @@ public class Game {
     private Integer victoriesP1;
     private Integer victoriesP2;
     private Integer draw;
+    private Boolean player1Turn;
     private char[] gameXO;
 
     public Game(String nameP1, String nameP2, Character symbolP1, Character symbolP2, Integer victoriesP1, Integer victoriesP2, Integer draw) {
@@ -18,8 +19,10 @@ public class Game {
         this.victoriesP1 = victoriesP1;
         this.victoriesP2 = victoriesP2;
         this.draw = draw;
+        this.player1Turn = true;
         gameXO = new char[9];
     }
+
 
     public String getNameP1() {
         return nameP1;
@@ -77,11 +80,32 @@ public class Game {
         this.draw = draw;
     }
 
+    public Boolean getPlayerTurn() {
+        return player1Turn;
+    }
+
+    public void setPlayerTurn(Boolean playerTurn) {
+        this.player1Turn = playerTurn;
+    }
+
     public char[] getGameXO() {
         return gameXO;
     }
 
     public void setGameXO(char[] gameXO) {
         this.gameXO = gameXO;
+    }
+
+
+    public void play(int posicao){
+        if (player1Turn) {
+            // Player 1 joga
+            gameXO[posicao] = symbolP1;
+        } else {
+            // Player 2 joga
+            gameXO[posicao] = symbolP2;
+        }
+        // Alterna a vez
+        player1Turn = !player1Turn;
     }
 }

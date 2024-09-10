@@ -103,7 +103,7 @@ public class MenuController {
             // Obtém o controlador associado ao FXML carregado.
             JogoController gameController = loader.getController();
 
-            // Chama um método do controlador que é usado para passar os dados para a próxima tela.
+            // Chama uma função do controlador que é usado para passar os dados para a próxima tela.
             gameController.setGame(game);
 
             // Cria uma nova instância de Stage, que é uma janela em JavaFX;
@@ -118,7 +118,7 @@ public class MenuController {
             stage.setResizable(false);
             stage.show();
 
-        // mostra o rastreamento dos erros que possam ocorrer durante a execução deste código.
+        // Mostra o rastreamento dos erros que possam ocorrer durante a execução deste código.
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -130,7 +130,7 @@ public class MenuController {
         stage.close();
     }
 
-    // O método configura as duas ChoiceBox.
+    //Configura as duas ChoiceBox.
     @FXML
     public void initialize() {
 
@@ -142,8 +142,8 @@ public class MenuController {
         // esse ouvinte é notificado sempre que a seleção muda.
         choiceBox1.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 
-            // Se a nova seleção não for nula,
-            // é defino o valor da choiceBox2 para o valor oposto do selecionado na choiceBox1.
+            // Se a nova seleção da choiceBox1 não for nula, é defino o valor
+            // da choiceBox2 para o valor oposto do selecionado na choiceBox1.
             if (newValue != null) {
                 choiceBox2.setValue(newValue == 'X' ? 'O' : 'X');
             }
@@ -153,8 +153,8 @@ public class MenuController {
         // esse ouvinte é notificado sempre que a seleção muda.
         choiceBox2.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 
-            // Se a nova seleção não for nula,
-            // é defino o valor da choiceBox1 para o valor oposto do selecionado na choiceBox2.
+            // Se a nova seleção da choiceBox2 não for nula, é defino o valor
+            // da choiceBox1 para o valor oposto do selecionado na choiceBox2.
             if (newValue != null) {
                 choiceBox1.setValue(newValue == 'X' ? 'O' : 'X');
             }

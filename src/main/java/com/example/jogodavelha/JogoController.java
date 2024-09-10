@@ -2,19 +2,23 @@ package com.example.jogodavelha;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class JogoController {
 
     private Game game;
+
+    Alert warningAlert = new Alert(Alert.AlertType.WARNING);
 
     @FXML
     private Label nickPlayer1;
@@ -52,12 +56,6 @@ public class JogoController {
         draw.setText(String.valueOf(game.getDraw()));
     }
 
-    @FXML
-    private void onMouseClickedReturn(MouseEvent mouseEvent) {
-        openFirstScreen();
-        closeCurrentWindow(mouseEvent);
-    }
-
     private void openFirstScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(JogoApplication.class.getResource("menu-view.fxml"));
@@ -80,7 +78,15 @@ public class JogoController {
     }
 
     @FXML
+    private void onMouseClickedReturn(MouseEvent mouseEvent) {
+        openFirstScreen();
+        closeCurrentWindow(mouseEvent);
+    }
+
+    @FXML
     public void initialize(){
+
+        // Evento de click no GridPane
         gridPane.setOnMouseClicked(event -> {
             // Obtém a posição do clique em relação ao GridPane.
             double x = event.getX();
@@ -90,10 +96,33 @@ public class JogoController {
             int column = (int) (x / (gridPane.getWidth() / 3));
             int row = (int) (y / (gridPane.getHeight() / 3));
 
-            // Converta a posição 2D para um índice 1D no array.
+            // Converte a posição 2D para um índice 1D do array.
             int index = row * 3 + column;
 
-            System.out.println("Célula clicada:" + (index));
+            // Verifica se a célula selecionada já foi preenchida.
+            if (game.getGameXO()[index] == '\u0000') {
+
+                // Executa a jogada e alterna o turno.
+                game.play(index);
+
+                // Cria um Label com o símbolo que está na posição index do array gameXO.
+                Label label = new Label(String.valueOf(game.getGameXO()[index]));
+
+                // Muda o tamanho da fonte do label.
+                label.setStyle("-fx-font-size: 35px;");
+
+                // Centraliza o label no GridPane.
+                GridPane.setHalignment(label, HPos.CENTER);
+                GridPane.setValignment(label, VPos.CENTER);
+
+                // Adiciona o label no GridPane na posição correta.
+                gridPane.add(label, column, row);
+            } else {
+                // Se a célula já estiver preenchida, mostra um alerta.
+                warningAlert.setHeaderText("Célula já ocupada");
+                warningAlert.setContentText("Escolha outra célula.");
+                warningAlert.showAndWait();
+            }
         });
     }
 }
