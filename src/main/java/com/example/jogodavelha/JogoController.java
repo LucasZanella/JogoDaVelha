@@ -109,7 +109,7 @@ public class JogoController {
 
         // Alerta que mostra o resultado.
         informationAlert.setTitle("Resultado!");                        // Define o título do alerta.
-        informationAlert.setHeaderText("Parabéns!!");                   // Define o cabeçalho do alerta.
+        informationAlert.setHeaderText(null);                           // Define o cabeçalho do alerta como nulo.
         informationAlert.setContentText(message);                       // Define o conteúdo do alerta com a mensagem passada como parâmetro.
         informationAlert.showAndWait();                                 // Mostra o alerta e espera pela resposta do usuário.
 
