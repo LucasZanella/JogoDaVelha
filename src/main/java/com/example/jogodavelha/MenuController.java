@@ -42,12 +42,14 @@ public class MenuController {
         // Os nomes são passados como parâmetros para uma função para serem válidados.
         // Caso não estejam em ordem, uma menssagem é setada no alerta e é mostrado na tela.
         if (ValidateName(player1Name, player2Name)) {
+            warningAlert.setHeaderText("Atenção!");
             warningAlert.setContentText("Precisa informar os nomes dos players e não podem ser iguais!!\n");
             warningAlert.show();
 
         // Os símbolos são passados como parâmetros para outra função para serem validados.
         // Caso não estejam em ordem, uma menssagem é setada no alerta e é mostrado na tela.
         }else if(ValidateSymbol(choice1, choice2)) {
+            warningAlert.setHeaderText("Atenção!");
             warningAlert.setContentText("Precisa escolher um símbolo para jogar!!");
             warningAlert.show();
 
@@ -63,9 +65,10 @@ public class MenuController {
 
     // Função que recebe um mouse event de click, ou seja,
     // quando o botão (Regras) for clicado a função é chamada.
-    public void onMouseClickedRules(MouseEvent mouseEvent){
+    public void onMouseClickedRules(){
 
         // É setado a menssagem do alert e depois mostrado para o usuário.
+        informationAlert.setHeaderText("Funcionalidade do jogo");
         informationAlert.setContentText("""
                 - A partida pode ter um vencedor ou terminar empatada.
                 - Os jogadores devem se identificar e escolher o símbolo.

@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -19,6 +21,7 @@ public class JogoController {
     private Game game;
 
     Alert warningAlert = new Alert(Alert.AlertType.WARNING);
+    Alert informationAlert = new Alert(Alert.AlertType.INFORMATION);
 
     @FXML
     private Label nickPlayer1;
@@ -37,8 +40,8 @@ public class JogoController {
     @FXML
     private GridPane gridPane;
 
-    // É passado os inputs para esse controlador e setado a interface
-    // com as informações passadas
+    // É passado os inputs para esse controlador e
+    // setado a interface com as informações passadas.
     public void setGame(Game game){
         this.game = game;
         updateUI();
@@ -62,6 +65,7 @@ public class JogoController {
             Parent root = loader.load();
 
             Stage stage = new Stage();
+            stage.setTitle("Jogo da Velha");
             stage.setScene(new Scene(root));
             stage.setResizable(false);
             stage.show();
@@ -74,6 +78,12 @@ public class JogoController {
     // Fecha a janela atual quando um evento de mouse ocorre, no caso, "Voltar".
     private void closeCurrentWindow(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+    }
+
+    // Fecha a janela atual quando os players não querem fazer uma revanche.
+    private void closeCurrentWindow() {
+        Stage stage = (Stage) gridPane.getScene().getWindow();
         stage.close();
     }
 
@@ -117,12 +127,58 @@ public class JogoController {
 
                 // Adiciona o label no GridPane na posição correta.
                 gridPane.add(label, column, row);
+
+                if (game.checkVictory(game.getGameXO()[index])) {
+                    showResultAlert("Vitória", game.getPlayer1Turn() ? game.getNameP2() + " venceu!" : game.getNameP1() + " venceu!");
+                } else if (game.checkDraw()) {
+                    showResultAlert("Empate", "O jogo terminou em empate!");
+                }
+
+                updateUI();
+
             } else {
                 // Se a célula já estiver preenchida, mostra um alerta.
                 warningAlert.setHeaderText("Célula já ocupada");
                 warningAlert.setContentText("Escolha outra célula.");
-                warningAlert.showAndWait();
+                warningAlert.show();
             }
         });
+
+    }
+
+    private void showResultAlert(String title, String message) {
+        Alert resultAlert = new Alert(Alert.AlertType.INFORMATION);
+        informationAlert.setTitle("Resultado!");
+        informationAlert.setHeaderText(null);
+        informationAlert.setContentText(message);
+        informationAlert.showAndWait();
+
+        // Remove os botões padrão
+        resultAlert.getDialogPane().getButtonTypes().clear();
+
+        ButtonType restartButtonType = new ButtonType("Reiniciar Jogo", ButtonBar.ButtonData.OK_DONE);
+        resultAlert.getButtonTypes().add(restartButtonType);
+
+        ButtonType returnToMenuButtonType = new ButtonType("Voltar ao Menu", ButtonBar.ButtonData.CANCEL_CLOSE);
+        resultAlert.getButtonTypes().add(returnToMenuButtonType);
+
+        resultAlert.showAndWait().ifPresent(response -> {
+            if (response == restartButtonType) {
+                restartGame();
+            } else if (response == returnToMenuButtonType) {
+                closeCurrentWindow();
+                openFirstScreen();
+            }
+        });
+    }
+
+    private void resetGridPane() {
+        gridPane.getChildren().removeIf(node -> GridPane.getColumnIndex(node) != null && GridPane.getRowIndex(node) != null);
+    }
+
+    private void restartGame() {
+        resetGridPane();
+        game.reset();
+        updateUI();
     }
 }
