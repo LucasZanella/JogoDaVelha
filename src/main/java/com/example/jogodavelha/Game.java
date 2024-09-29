@@ -3,20 +3,21 @@ package com.example.jogodavelha;
 import java.util.Arrays;
 
 public class Game {
-    private String nameP1;                  // Armazena o nome do jogador 1.
-    private String nameP2;                  // Armazena o nome do jogador 2.
-    private Character symbolP1;             // Representa o símbolo escolhido pelo jogador 1 ('X' ou 'O').
-    private Character symbolP2;             // Representa o símbolo escolhido pelo jogador 2 ('X' ou 'O').
-    private Integer victoriesP1;            // Conta o número de vitórias do jogador 1.
-    private Integer victoriesP2;            // Conta o número de vitórias do jogador 2.
-    private Integer draw;                   // Conta o número de empates entre os dois jogadores.
-    private Boolean playerTurn;             // Indica se é a vez do jogador 1 (true) ou do jogador 2 (false).
-    private Boolean lastPlayerStarted;      // Armazena quem começou a última partida, (true) para o jogador 1 e (false) para o jogador 2.
-    private int moveCount;                  // Conta quantas jogadas foram feitas na partida atual.
-    private char[] gameXO;                  // Representa o estado atual do tabuleiro de jogo da velha.
+    private String nameP1;                              // Armazena o nome do jogador 1.
+    private String nameP2;                              // Armazena o nome do jogador 2.
+    private Character symbolP1;                         // Representa o símbolo escolhido pelo jogador 1 ('X' ou 'O').
+    private Character symbolP2;                         // Representa o símbolo escolhido pelo jogador 2 ('X' ou 'O').
+    private Integer victoriesP1;                        // Conta o número de vitórias do jogador 1.
+    private Integer victoriesP2;                        // Conta o número de vitórias do jogador 2.
+    private Integer draw;                               // Conta o número de empates entre os dois jogadores.
+    private Boolean player1Turn;                        // Indica se é a vez do jogador 1 (true) ou do jogador 2 (false).
+    private Boolean lastPlayerStarted;                  // Armazena quem começou a última partida, (true) para o jogador 1 e (false) para o jogador 2.
+    private int moveCount;                              // Conta quantas jogadas foram feitas na partida atual.
+    private char[] gameXO;                              // Representa o estado atual do tabuleiro de jogo da velha.
+
 
     // Matriz bidimencional que armazena as condições de vitória.
-    private final int[][] winningCombinations = {
+    private final int[][] initialWinningCombinations = {
             {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // Linhas
             {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // Colunas
             {0, 4, 8}, {2, 4, 6}  // Diagonais
@@ -32,7 +33,7 @@ public class Game {
         this.victoriesP1 = victoriesP1;
         this.victoriesP2 = victoriesP2;
         this.draw = draw;
-        this.playerTurn = true;
+        this.player1Turn = true;
         this.lastPlayerStarted = true;
         this.moveCount = 0;
         gameXO = new char[9];
@@ -96,11 +97,11 @@ public class Game {
     }
 
     public Boolean getPlayer1Turn() {
-        return playerTurn;
+        return player1Turn;
     }
 
-    public void setPlayer1Turn(Boolean playerTurn) {
-        this.playerTurn = playerTurn;
+    public void setPlayer1Turn(Boolean player1Turn) {
+        this.player1Turn = player1Turn;
     }
 
     public Boolean getLastPlayerStarted() {
@@ -127,8 +128,8 @@ public class Game {
         this.gameXO = gameXO;
     }
 
-    public int[][] getWinningCombinations() {
-        return winningCombinations;
+    public int[][] getInitialWinningCombinations() {
+        return initialWinningCombinations;
     }
 
 
@@ -138,7 +139,7 @@ public class Game {
 
         // Quando for verdade o player 1 joga;
         // Quando for falso o player 2 joga.
-        if (playerTurn) {
+        if (player1Turn) {
             gameXO[posicao] = symbolP1;         // Adiciona o símbolo do player 1 no array.
         } else {
             gameXO[posicao] = symbolP2;         // Adiciona o símbolo do player 2 no array.
@@ -155,7 +156,7 @@ public class Game {
             if (checkVictory(gameXO[posicao])) {
 
                 // Se o player 1 estiver jogando e vencer, incrementa suas vitórias.
-                if (playerTurn) {
+                if (player1Turn) {
                     victoriesP1++;
 
                 // Se for o player 2 que estiver jogando e vencer, incrementa as vitórias dele.
@@ -168,14 +169,14 @@ public class Game {
                 draw++;             // Incrementa o número de empates.
             }
         }
-        playerTurn = !playerTurn;   // Alterna o turno entre os jogadores.
+        player1Turn = !player1Turn;   // Alterna o turno entre os jogadores.
     }
 
     // Função para verificar se houve vitória.
     public boolean checkVictory(char symbol) {
 
         // Percorre todas as combinações de vitória possíveis.
-        for (int[] combination : winningCombinations) {
+        for (int[] combination : initialWinningCombinations) {
 
             // Verifica se todas as três posições de uma combinação contêm o símbolo do jogador atual.
             if (gameXO[combination[0]] == symbol && gameXO[combination[1]] == symbol && gameXO[combination[2]] == symbol) {
@@ -212,10 +213,10 @@ public class Game {
         Arrays.fill(gameXO, '\u0000');
 
         // Alterna o jogador que começará a nova partida.
-        playerTurn = !lastPlayerStarted;
+        player1Turn = !lastPlayerStarted;
 
         // Atualiza o último jogador que começou.
-        lastPlayerStarted = playerTurn;
+        lastPlayerStarted = player1Turn;
 
         // Reseta a contagem de jogadas.
         moveCount = 0;

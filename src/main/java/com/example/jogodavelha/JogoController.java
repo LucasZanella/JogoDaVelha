@@ -34,6 +34,10 @@ public class JogoController {
     @FXML
     private Label victoriesP1;
     @FXML
+    private Label p1;
+    @FXML
+    private Label p2;
+    @FXML
     private Label nickPlayer2;
     @FXML
     private Label choiceSymbolP2;
@@ -52,6 +56,7 @@ public class JogoController {
     }
 
     // Atualiza a interface do usuário com as informações do jogo.
+    // Destaca o player que está jogando.
     private void updateUI(){
 
         nickPlayer1.setText(game.getNameP1());                          // Atualiza o campo de texto com o nome do jogador 1.
@@ -63,6 +68,24 @@ public class JogoController {
         victoriesP2.setText(String.valueOf(game.getVictoriesP2()));     // Atualiza o número de vitórias do jogador 2
 
         draw.setText(String.valueOf(game.getDraw()));                   // Atualiza o número de empates.
+
+        if (game.getPlayer1Turn()) {
+            nickPlayer1.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
+            choiceSymbolP1.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
+            p1.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
+
+            nickPlayer2.setStyle("-fx-font-weight: normal; -fx-text-fill: black;");
+            choiceSymbolP2.setStyle("-fx-font-weight: normal; -fx-text-fill: black;");
+            p2.setStyle("-fx-font-weight: normal; -fx-text-fill: black;");
+        } else {
+            nickPlayer2.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
+            choiceSymbolP2.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
+            p2.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
+
+            nickPlayer1.setStyle("-fx-font-weight: normal; -fx-text-fill: black;");
+            choiceSymbolP1.setStyle("-fx-font-weight: normal; -fx-text-fill: black;");
+            p1.setStyle("-fx-font-weight: normal; -fx-text-fill: black;");
+        }
     }
 
     // Abre a tela do menu.
@@ -95,7 +118,7 @@ public class JogoController {
         stage.close();      // Fecha a janela atual.
     }
 
-    // Fecha a janela atual quando os players voltam para o menu.
+    // Fecha a janela atual através do alerta quando os players voltam para o menu.
     private void closeCurrentWindow() {
 
         // Obtém a janela (Stage) atual a partir do evento de mouse.
