@@ -114,7 +114,6 @@ public class JogoController {
 
         // Obtém a janela (Stage) atual a partir do evento de mouse.
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
         stage.close();      // Fecha a janela atual.
     }
 
@@ -223,17 +222,32 @@ public class JogoController {
                 // Adiciona o label no GridPane na posição correta.
                 gridPane.add(label, column, row);
 
-                // Verifica se o jogador atual venceu o jogo.
-                if (game.checkVictory(game.getGameXO()[index])) {
+                // Incrementa o contador de jogadas.
+                game.setMoveCount(game.getMoveCount());
 
-                    // Mostra um alerta informando quem venceu.
-                    showResultAlert("Vitória", game.getPlayer1Turn() ? game.getNameP2() + " venceu!" : game.getNameP1() + " venceu!");
+                // Não é possível ter uma vitória ou empate com menos de 4 jogadas.
+                if(game.getMoveCount()>4){
 
-                // Verifica se o jogo terminou em empate.
-                } else if (game.checkDraw()) {
+                    // Verifica se o jogador atual venceu o jogo.
+                    if (game.checkVictory(game.getGameXO()[index])) {
 
-                    // Mostra um alerta informando que o jogo empatou.
-                    showResultAlert("Empate", "O jogo terminou em empate!");
+                        // Mostra um alerta informando quem venceu.
+                        // Incrementa o número de vitórias.
+                        if (game.getPlayer1Turn()) {
+                            showResultAlert("Vitória", game.getNameP2() + " venceu!");
+                            game.setVictoriesP2(game.getVictoriesP2());
+
+                        } else {
+                            showResultAlert("Vitória", game.getNameP1() + " venceu!");
+                            game.setVictoriesP1(game.getVictoriesP1());
+                        }
+
+                    // Verifica se o jogo deu empate.
+                    // Incrementa o número de empate.
+                    } else if (game.checkDraw()) {
+                        showResultAlert("Empate", "O jogo terminou em empate!");
+                        game.setDraw(game.getDraw());
+                    }
                 }
 
                 // Atualiza a interface do usuário com as novas informações

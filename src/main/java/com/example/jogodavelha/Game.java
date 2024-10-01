@@ -16,6 +16,7 @@ public class Game {
     private char[] gameXO;                              // Representa o estado atual do tabuleiro de jogo da velha.
 
 
+
     // Matriz bidimencional que armazena as condições de vitória.
     private final int[][] initialWinningCombinations = {
             {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // Linhas
@@ -77,7 +78,7 @@ public class Game {
     }
 
     public void setVictoriesP1(Integer victoriesP1) {
-        this.victoriesP1 = victoriesP1;
+        this.victoriesP1 = victoriesP1 + 1;
     }
 
     public Integer getVictoriesP2() {
@@ -85,7 +86,7 @@ public class Game {
     }
 
     public void setVictoriesP2(Integer victoriesP2) {
-        this.victoriesP2 = victoriesP2;
+        this.victoriesP2 = victoriesP2 + 1;
     }
 
     public Integer getDraw() {
@@ -93,7 +94,7 @@ public class Game {
     }
 
     public void setDraw(Integer draw) {
-        this.draw = draw;
+        this.draw = draw + 1;
     }
 
     public Boolean getPlayer1Turn() {
@@ -117,7 +118,7 @@ public class Game {
     }
 
     public void setMoveCount(int moveCount) {
-        this.moveCount = moveCount;
+        this.moveCount = moveCount + 1;
     }
 
     public char[] getGameXO() {
@@ -145,30 +146,6 @@ public class Game {
             gameXO[posicao] = symbolP2;         // Adiciona o símbolo do player 2 no array.
         }
 
-        // Incrementa o contador de jogadas.
-        moveCount++;
-
-        // A verificação de vitória ou empate só acontece após 5 jogadas (moveCount > 4),
-        // pois antes disso é impossível que alguém tenha vencido ou empatado.
-        if (moveCount > 4) {
-
-            // Verifica se o jogador que fez a jogada atual venceu.
-            if (checkVictory(gameXO[posicao])) {
-
-                // Se o player 1 estiver jogando e vencer, incrementa suas vitórias.
-                if (player1Turn) {
-                    victoriesP1++;
-
-                // Se for o player 2 que estiver jogando e vencer, incrementa as vitórias dele.
-                } else {
-                    victoriesP2++;
-                }
-
-            // Se ninguém venceu, verifica se deu empate.
-            } else if (checkDraw()) {
-                draw++;             // Incrementa o número de empates.
-            }
-        }
         player1Turn = !player1Turn;   // Alterna o turno entre os jogadores.
     }
 
