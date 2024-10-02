@@ -7,10 +7,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -55,10 +52,10 @@ public class JogoController {
         updateUI();
     }
 
-    // Atualiza a interface do usuário com as informações do jogo.
-    // Destaca o player que está jogando.
+    // Atualiza a interface do jogo.
     private void updateUI(){
 
+        // Atualiza a interface do usuário com as informações do jogo.
         nickPlayer1.setText(game.getNameP1());                          // Atualiza o campo de texto com o nome do jogador 1.
         choiceSymbolP1.setText(String.valueOf(game.getSymbolP1()));     // Atualiza o símbolo do jogador 1 exibido na interface.
         victoriesP1.setText(String.valueOf(game.getVictoriesP1()));     // Atualiza o número de vitórias do jogador 1.
@@ -69,6 +66,7 @@ public class JogoController {
 
         draw.setText(String.valueOf(game.getDraw()));                   // Atualiza o número de empates.
 
+        // Destaca o player que está jogando.
         if (game.getPlayer1Turn()) {
             nickPlayer1.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
             choiceSymbolP1.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
@@ -184,7 +182,7 @@ public class JogoController {
         closeCurrentWindow(mouseEvent);     // Fecha a janela atual.
     }
 
-    // Configura os eventos no GridPane.
+    // Configura os eventos no GridPane e Checkbox.
     @FXML
     public void initialize(){
 
@@ -226,7 +224,7 @@ public class JogoController {
                 game.setMoveCount(game.getMoveCount());
 
                 // Não é possível ter uma vitória ou empate com menos de 4 jogadas.
-                if(game.getMoveCount()>4){
+                if(game.getMoveCount()>4 || !game.getDetectDraw()){
 
                     // Verifica se o jogador atual venceu o jogo.
                     if (game.checkVictory(game.getGameXO()[index])) {
@@ -241,11 +239,16 @@ public class JogoController {
                             showResultAlert("Vitória", game.getNameP1() + " venceu!");
                             game.setVictoriesP1(game.getVictoriesP1());
                         }
-
-                    // Verifica se o jogo deu empate.
-                    // Incrementa o número de empate.
-                    } else if (game.checkDraw()) {
+                    }else if (game.checkDraw()){
                         showResultAlert("Empate", "O jogo terminou em empate!");
+                        game.setDraw(game.getDraw());
+                    }
+
+                }else{
+                    game.updateWinningCombinations();
+
+                    if (game.predictDraw()){
+                        showResultAlert("Empate", "O computador previu que o jogo dará empate!");
                         game.setDraw(game.getDraw());
                     }
                 }

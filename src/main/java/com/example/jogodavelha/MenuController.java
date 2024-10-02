@@ -27,9 +27,12 @@ public class MenuController {
     private TextField textFieldPlayer1;
     @FXML
     private TextField textFieldPlayer2;
+    @FXML
+    private CheckBox detectDraw;
 
     // Quando o botão (Jogar) for clicado a função é executada.
     public void onMouseClickedPlay(MouseEvent mouseEvent) {
+
         // Captura os inputs (nomes) dos textfields.
         String player1Name = textFieldPlayer1.getText();
         String player2Name = textFieldPlayer2.getText();
@@ -37,6 +40,9 @@ public class MenuController {
         // Captura os inputs (Símbolos) das choices boxes.
         Character choice1 = choiceBox1.getValue();
         Character choice2 = choiceBox2.getValue();
+
+        // Captura o estado da CheckBox.
+        boolean isDetectDrawSelected = detectDraw.isSelected();
 
         // Os nomes são passados como parâmetros para uma função para serem válidados.
         // Caso não estejam em ordem, uma menssagem é setada no alerta e é mostrado na tela.
@@ -52,12 +58,17 @@ public class MenuController {
             warningAlert.setContentText("Precisa escolher um símbolo para jogar!!");
             warningAlert.show();
 
-        // Os dados são passados como parâmetros do construtor da classe Game que é instanciada
-        // que é instanciada, em seguida, é passada para a função OpenGame e por fim,
-        // a função que fecha a tela do menu é chamada.
         }else {
+            // Os dados são passados como parâmetros do construtor da classe Game que é instanciada.
             Game game = new Game(player1Name, player2Name, choice1, choice2, 0, 0, 0);
+
+            // Se a Checkbox for selecionada a previsão de empate é ativada (por padrão está definido como falso).
+            if (isDetectDrawSelected) {game.setDetectDraw(true);}
+
+            // Passa os dados para a função que inicia o jogo.
             OpenGame(game);
+
+            // Fecha a tela do menu.
             closeCurrentWindow(mouseEvent);
         }
     }
@@ -73,6 +84,7 @@ public class MenuController {
                 - O primeiro jogador a informar o nome inicia a partida.
                 - Ao final da partida existe a possibilidade de revanche.
                 - Ao iniciar uma nova partida, alterna-se o jogador que inicia.
+                - Quando é a vez do jogador o nome ficará verde.
                 """);
         informationAlert.show();
     }

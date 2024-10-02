@@ -1,5 +1,6 @@
 package com.example.jogodavelha;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Game {
@@ -12,9 +13,10 @@ public class Game {
     private Integer draw;                               // Conta o número de empates entre os dois jogadores.
     private Boolean player1Turn;                        // Indica se é a vez do jogador 1 (true) ou do jogador 2 (false).
     private Boolean lastPlayerStarted;                  // Armazena quem começou a última partida, (true) para o jogador 1 e (false) para o jogador 2.
-    private int moveCount;                              // Conta quantas jogadas foram feitas na partida atual.
+    private Boolean detectDraw;                         // Armazena se os usuários querem a previsão de empate.
+    private Integer moveCount;                          // Conta quantas jogadas foram feitas na partida atual.
+    private ArrayList<int[]> winningCombinations;       // Lista dinâmica para armazenar as combinações de vitória restantes.
     private char[] gameXO;                              // Representa o estado atual do tabuleiro de jogo da velha.
-
 
 
     // Matriz bidimencional que armazena as condições de vitória.
@@ -36,8 +38,11 @@ public class Game {
         this.draw = draw;
         this.player1Turn = true;
         this.lastPlayerStarted = true;
+        this.detectDraw = false;
         this.moveCount = 0;
+        this.winningCombinations = new ArrayList<>(Arrays.asList(initialWinningCombinations));
         gameXO = new char[9];
+
     }
 
     // Getters e Setters do construtor.
@@ -113,12 +118,28 @@ public class Game {
         this.lastPlayerStarted = lastPlayerStarted;
     }
 
+    public Boolean getDetectDraw() {
+        return detectDraw;
+    }
+
+    public void setDetectDraw(Boolean detectDraw) {
+        this.detectDraw = detectDraw;
+    }
+
     public int getMoveCount() {
         return moveCount;
     }
 
-    public void setMoveCount(int moveCount) {
+    public void setMoveCount(Integer moveCount) {
         this.moveCount = moveCount + 1;
+    }
+
+    public ArrayList<int[]> getWinningCombinations() {
+        return winningCombinations;
+    }
+
+    public void setWinningCombinations(ArrayList<int[]> winningCombinations) {
+        this.winningCombinations = winningCombinations;
     }
 
     public char[] getGameXO() {
@@ -134,16 +155,15 @@ public class Game {
     }
 
 
-    // Função que adiciona os símbolos no array e verifica as condições
-    // de vitória e empate e alterna o turno dos jogadores.
-    public void play(int posicao){
+    // Função que adiciona os símbolos no array e alterna o turno dos jogadores.
+    public void play(int position){
 
         // Quando for verdade o player 1 joga;
         // Quando for falso o player 2 joga.
         if (player1Turn) {
-            gameXO[posicao] = symbolP1;         // Adiciona o símbolo do player 1 no array.
+            gameXO[position] = symbolP1;         // Adiciona o símbolo do player 1 no array.
         } else {
-            gameXO[posicao] = symbolP2;         // Adiciona o símbolo do player 2 no array.
+            gameXO[position] = symbolP2;         // Adiciona o símbolo do player 2 no array.
         }
 
         player1Turn = !player1Turn;   // Alterna o turno entre os jogadores.
@@ -183,6 +203,35 @@ public class Game {
         return true;
     }
 
+    // Função que atualiza as combinações de vitória restantes.
+    public void updateWinningCombinations() {
+        ArrayList<int[]> validCombinations = new ArrayList<>();
+
+        Character currentSymbol = player1Turn ? symbolP1 : symbolP2;
+        
+        // Verifica cada combinação para garantir que ela ainda é possível.
+        for (int[] combination : winningCombinations) {
+            if ((gameXO[combination[0]] == '\u0000' || gameXO[combination[0]] == currentSymbol) &&
+                    (gameXO[combination[1]] == '\u0000' || gameXO[combination[1]] == currentSymbol) &&
+                    (gameXO[combination[2]] == '\u0000' || gameXO[combination[2]] == currentSymbol)) {
+
+                System.out.println(Arrays.toString(combination));
+                // Adiciona a combinação à lista de válidas se ainda for possível.
+                validCombinations.add(combination);
+            }
+        }
+
+        // Atualiza a lista original com as combinações válidas.
+        winningCombinations = validCombinations;
+    }
+
+    // Função para verificar se houve empate.
+    public boolean predictDraw() {
+
+        // Se não há mais combinações de vitória possíveis, é empate.
+        return winningCombinations.isEmpty();
+    }
+
     // Função para resetar o jogo.
     public void reset() {
 
@@ -197,5 +246,8 @@ public class Game {
 
         // Reseta a contagem de jogadas.
         moveCount = 0;
+
+        // Reseta as combinações de vitória.
+        winningCombinations = new ArrayList<>(Arrays.asList(initialWinningCombinations));
     }
 }
