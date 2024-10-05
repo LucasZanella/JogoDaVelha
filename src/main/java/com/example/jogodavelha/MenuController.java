@@ -27,8 +27,6 @@ public class MenuController {
     private TextField textFieldPlayer1;
     @FXML
     private TextField textFieldPlayer2;
-    @FXML
-    private CheckBox detectDraw;
 
     // Quando o botão (Jogar) for clicado a função é executada.
     public void onMouseClickedPlay(MouseEvent mouseEvent) {
@@ -40,9 +38,6 @@ public class MenuController {
         // Captura os inputs (Símbolos) das choices boxes.
         Character choice1 = choiceBox1.getValue();
         Character choice2 = choiceBox2.getValue();
-
-        // Captura o estado da CheckBox.
-        boolean isDetectDrawSelected = detectDraw.isSelected();
 
         // Os nomes são passados como parâmetros para uma função para serem válidados.
         // Caso não estejam em ordem, uma menssagem é setada no alerta e é mostrado na tela.
@@ -61,9 +56,6 @@ public class MenuController {
         }else {
             // Os dados são passados como parâmetros do construtor da classe Game que é instanciada.
             Game game = new Game(player1Name, player2Name, choice1, choice2, 0, 0, 0);
-
-            // Se a Checkbox for selecionada a previsão de empate é ativada (por padrão está definido como falso).
-            if (isDetectDrawSelected) {game.setDetectDraw(true);}
 
             // Passa os dados para a função que inicia o jogo.
             OpenGame(game);

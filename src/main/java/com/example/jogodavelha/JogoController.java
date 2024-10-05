@@ -224,9 +224,10 @@ public class JogoController {
                 game.setMoveCount(game.getMoveCount());
 
                 // Não é possível ter uma vitória ou empate com menos de 4 jogadas.
-                if(game.getMoveCount()>4 || !game.getDetectDraw()){
+                if(game.getMoveCount()>4){
 
                     // Verifica se o jogador atual venceu o jogo.
+                    // Se não, verifica se houve empate.
                     if (game.checkVictory(game.getGameXO()[index])) {
 
                         // Mostra um alerta informando quem venceu.
@@ -239,20 +240,12 @@ public class JogoController {
                             showResultAlert("Vitória", game.getNameP1() + " venceu!");
                             game.setVictoriesP1(game.getVictoriesP1());
                         }
+
                     }else if (game.checkDraw()){
                         showResultAlert("Empate", "O jogo terminou em empate!");
                         game.setDraw(game.getDraw());
                     }
-
-                }else{
-                    game.updateWinningCombinations();
-
-                    if (game.predictDraw()){
-                        showResultAlert("Empate", "O computador previu que o jogo dará empate!");
-                        game.setDraw(game.getDraw());
-                    }
                 }
-
                 // Atualiza a interface do usuário com as novas informações
                 updateUI();
 
