@@ -37,7 +37,6 @@ public class Game {
         this.lastPlayerStarted = true;
         this.moveCount = 0;
         gameXO = new char[9];
-
     }
 
     // Getters e Setters do construtor.
