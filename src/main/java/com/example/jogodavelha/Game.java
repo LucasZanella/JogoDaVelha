@@ -12,7 +12,6 @@ public class Game {
     private Integer draw;                               // Conta o número de empates entre os dois jogadores.
     private Boolean player1Turn;                        // Indica se é a vez do jogador 1 (true) ou do jogador 2 (false).
     private Boolean lastPlayerStarted;                  // Armazena quem começou a última partida, (true) para o jogador 1 e (false) para o jogador 2.
-    private Boolean detectDraw;                         // Armazena se os usuários querem a previsão de empate.
     private Integer moveCount;                          // Conta quantas jogadas foram feitas na partida atual.
     private char[] gameXO;                              // Representa o estado atual do tabuleiro de jogo da velha.
 
@@ -36,7 +35,6 @@ public class Game {
         this.draw = draw;
         this.player1Turn = true;
         this.lastPlayerStarted = true;
-        this.detectDraw = false;
         this.moveCount = 0;
         gameXO = new char[9];
 
@@ -113,14 +111,6 @@ public class Game {
 
     public void setLastPlayerStarted(Boolean lastPlayerStarted) {
         this.lastPlayerStarted = lastPlayerStarted;
-    }
-
-    public Boolean getDetectDraw() {
-        return detectDraw;
-    }
-
-    public void setDetectDraw(Boolean detectDraw) {
-        this.detectDraw = detectDraw;
     }
 
     public int getMoveCount() {
